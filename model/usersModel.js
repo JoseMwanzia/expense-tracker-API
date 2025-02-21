@@ -9,4 +9,14 @@ export default class Users {
             throw new Error(error)
         }
     }
+
+    static async findByEmail(email) {
+        try {
+            const data =  await sql `SELECT name, email, password FROM users WHERE email=${email}`
+            if (data.length === 0) throw new Error('Email not found!');
+            return data[0]
+        } catch (error) {
+            throw new Error(error)   
+        }
+    }
 }
