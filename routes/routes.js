@@ -6,6 +6,6 @@ import { signupSchema } from '../validations/usersValidations.js'
 import { validationMiddleware } from '../middlewares/validationMiddleware.js'
 
 router.post('/signup', validationMiddleware(signupSchema), signUp)
-router.post('/login', login)
+router.post('/login', validationMiddleware(loginSchema), login)
 
 export { router }
