@@ -1,7 +1,8 @@
 import argon2 from 'argon2'
 import 'dotenv/config'
 import Users from '../model/usersModel.js';
-import { generateAccessToken, generateRefreshToken } from './jwtAuth.js';
+import { generateAccessToken, generateRefreshToken } from './jwtGenerators.js';
+import { redis } from '../config/redisConfig.js';
 
 export async function login(req, res) {
     // 1.✅ Get the login credentials from the body.
@@ -24,5 +25,19 @@ export async function login(req, res) {
     } catch (error) {
         console.error(error.stack);
         return res.status(404).send(error.message)
+    }
+}
+
+export async function refresh(refreshToken) {
+
+    try {
+        const cache = await redis.get(refreshToken, async (err, data) => {
+            if(err) return err
+            return data
+        })
+        
+        return cache
+    } catch (error) {
+        throw new Error(error) 
     }
 }
