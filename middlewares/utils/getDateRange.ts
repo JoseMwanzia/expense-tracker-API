@@ -1,4 +1,4 @@
-const getDateRange = (filter) => {
+const getDateRange = (filter: any) => {
   const today = new Date();
   let startDate, endDate;
 

@@ -1,7 +1,7 @@
-import Expense from "../model/expenseModel.js";
-import getDateRange from "../middlewares/utils/getDateRange.js";
+import Expense from "../model/expenseModel";
+import getDateRange from "../middlewares/utils/getDateRange";
 
-export async function expenses(req, res) {
+export async function expenses(req: any, res: any) {
     const user_id = req.user.id
     const {duration, startDate, endDate} = req.query
     let page = parseInt(req.query.page, 10) || 1; // Current page (default: 1)
@@ -30,11 +30,11 @@ export async function expenses(req, res) {
     }
 }
 
-export async function createExpenses(req, res) {
+export async function createExpenses(req: any, res: any) {
     try {
         const user_id = req.user.id
-        const {amount} = req.body
-        const data = await Expense.createExpense(amount, user_id)
+        const {amount, category} = req.body
+        const data = await Expense.createExpense(amount, category, user_id)
         res.status(200).send(data)    
     } catch (error) {
         res.status(400).send(error.message)
@@ -42,7 +42,7 @@ export async function createExpenses(req, res) {
     }
 }
 
-export async function deleteExpense(req, res) {
+export async function deleteExpense(req: any, res: any) {
     try {
         const user_id = req.user.id;
         const expense_id = req.params.id
@@ -54,7 +54,7 @@ export async function deleteExpense(req, res) {
     }
 }
 
-export async function updateExpense(req, res) {
+export async function updateExpense(req: any, res: any) {
     try {
         const user_id = req.user.id
         const expense_id = req.params.id;

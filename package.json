@@ -2,10 +2,9 @@
   "name": "expense-tracker-api",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon --watch './**/*.ts' --exec ts-node ./index.ts"
   },
   "keywords": [],
   "author": "",
@@ -18,11 +17,16 @@
     "ioredis": "^5.5.0",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
-    "pg": "^8.13.1",
+    "pg": "^8.16.3",
     "postgres": "^3.4.5",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "@types/express": "^5.0.5",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.10.0",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }

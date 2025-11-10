@@ -1,7 +1,7 @@
-import sql from "../config/dbConfig.js"
+import sql from "../config/dbConfig"
 
 export default class Expense {
-    static async getAllExpenses( user_id, limit, offset ) {
+    static async getAllExpenses( user_id: number, limit: number, offset: number ) {
         try {
             const data = await sql `SELECT * FROM expenses WHERE user_id=${user_id} ORDER BY id DESC LIMIT ${limit} OFFSET ${offset};`
             return data
@@ -10,16 +10,16 @@ export default class Expense {
         }
     }
 
-    static async createExpense( amount, user_id) {
+    static async createExpense( amount: number, category: string, user_id: number) {
         try {
-            const data = await sql `INSERT INTO expenses (amount, user_id) VALUES (${amount}, ${user_id}) RETURNING *;`
+            const data = await sql `INSERT INTO expenses (amount, category, user_id) VALUES (${amount}, ${category}, ${user_id}) RETURNING *;`
             return data
         } catch (error) {
             throw new Error(`Error inserting data to the database, ${error}`)
         }
     }
 
-    static async deleteExpense(user_id, expense_id) {
+    static async deleteExpense(user_id: number, expense_id: number) {
         try {
             const deleteData = await sql `DELETE FROM expenses WHERE id=${expense_id} AND user_id = ${user_id} RETURNING id;`
             return deleteData
@@ -28,7 +28,7 @@ export default class Expense {
         }
     }
 
-    static async updateData(user_id, expense_id, amount) {
+    static async updateData(user_id: number, expense_id: number, amount: number) {
         try {
             const updateData = await sql `UPDATE expenses SET amount = ${amount} WHERE id = ${expense_id} AND user_id = ${user_id} RETURNING id, amount, user_id;`
             return updateData

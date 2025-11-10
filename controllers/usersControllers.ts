@@ -1,7 +1,7 @@
-import Users from "../model/usersModel.js"
+import Users from "../model/usersModel"
 import argon2 from "argon2"
 
-export async function signUp(req, res) {
+export async function signUp(req: any, res: any) {
     const { name, email, password } = req.body
 
     try {
