@@ -1,17 +1,22 @@
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import 'dotenv/config';
 import { refresh } from '../controllers/authServer';
+import { NextFunction, Request, Response } from 'express';
 const { ACCESS_TOKEN } = process.env;
 
-export async function authenticateToken (req: any, res: any, next: any) {
-    const authHeader = req.headers['authorisation']
-    const token = authHeader && authHeader.split(' ')[1];
-    const refreshToken = authHeader && authHeader.split(' ')[2];
+interface AuthenticatedRequest extends Request{
+    user?: string | JwtPayload
+}
 
-    if (token == null) return  res.status(401).send({ message: 'Unauthorised!'});
+export async function authenticateToken (req: AuthenticatedRequest, res: Response, next: NextFunction) {
+    const authHeader = req.headers['authorisation']
+    const token = (Array.isArray(authHeader) ? authHeader[0] : authHeader)?.split(" ")[1];
+    const refreshToken = (Array.isArray(authHeader) ? authHeader[0] : authHeader)?.split(" ")[2];
+
+    if (token == null) return res.status(401).send({ message: 'Unauthorised!'});
     
     try {
-        jwt.verify(token, ACCESS_TOKEN!, async (err: any, data: any) => {  
+        return jwt.verify(token, ACCESS_TOKEN!, async (err, data) => {  
 
             if (err && err.message == 'jwt expired') {
                 console.warn('Access token expired. Attempting to refresh page...')
@@ -20,9 +25,7 @@ export async function authenticateToken (req: any, res: any, next: any) {
                 if (cachedData == null) return res.status(401).send({message: 'PLEASE LOG IN AGAIN!'})
 
                 req.user = JSON.parse(cachedData)
-                
-                next()
-                return;
+                return next()
             }
             req.user = data
             next()
