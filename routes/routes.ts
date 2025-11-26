@@ -12,7 +12,7 @@ router.post('/signup', validationMiddleware(signupSchema), signUp)
 router.post('/login', validationMiddleware(loginSchema), login)
 router.get('/expenses', authenticateToken, expenses)
 router.post('/expense', validationMiddleware(expenseSchema), authenticateToken, createExpenses)
-router.post('/expense/:id', authenticateToken, deleteExpense)
-router.put('/expense/:id', authenticateToken, updateExpense)
+router.delete('/expense/:id', authenticateToken, deleteExpense)
+router.put('/expense/:id', validationMiddleware(expenseSchema), authenticateToken, updateExpense)
 
 export { router }
