@@ -119,7 +119,7 @@ To start the project in development mode run:
 npm run dev
 ``
 
-which runs the app using nodemon.
+which runs the app using nodemon[.](https://roadmap.sh/projects/expense-tracker-api)
 
 In production run:
 
