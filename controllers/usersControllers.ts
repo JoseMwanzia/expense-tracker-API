@@ -10,7 +10,7 @@ export async function signUp(req: Request, res: Response): Promise<Response> {
         
         const users = Users.create({ name, email, password: hashedPassword })
         await users.save()
-        // return res.status(200).send(users)
+        return res.status(200).send(users)
     } catch (error) {
         console.error(error);
         return res.status(400).send(error)
